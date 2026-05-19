@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: ai-complaint-backend
+    env: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENROUTER_BASE_URL
+        value: "https://openrouter.ai/api/v1"
+
+  - type: web
+    name: ai-complaint-frontend
+    env: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: ai-complaint-backend
+          envVarKey: RENDER_EXTERNAL_URL
+          # Note: Might need to append /api depending on exact Render output, 
+          # typically configured in Render dashboard.
