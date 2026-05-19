@@ -19,7 +19,6 @@ services:
   - type: web
     name: ai-complaint-frontend
     env: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
