@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+let baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// In Render, RENDER_EXTERNAL_URL doesn't have /api, so we ensure it's added
+if (!baseURL.endsWith('/api')) {
+    baseURL += '/api';
+}
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    baseURL,
 });
 
 // Request interceptor to add the token to headers
